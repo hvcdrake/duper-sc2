@@ -1,0 +1,49 @@
+/* 
+    Document   : css1
+    Created on : 15-mar-2013, 8:30:26
+    Author     : Hans
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#centrar 
+{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 80%;
+}
+
+#superior 
+{
+    position: absolute;
+    left: 50%;
+    margin-top: 0px;
+    margin-left: -230px;
+    
+}
+
+#tamañoN
+{
+    width: 100px
+}
+
+red.ui-datatable.ui-datatable-even{
+   background:  red;
+}
+
+red.ui-datatable.ui-datatable-odd{
+   background:  white;
+}
+
+.sinBordeGrid tr, .sinBordeGrid td {
+    border: none;
+}
+
+.ui-picklist.p1 .ui-picklist-list{
+width: 700px;
+}

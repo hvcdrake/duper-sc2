@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/04/2017 05:32:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sc77.entities.Permisos" table="Permisos" catalog="sc77la_dev">
+        <id name="idPermiso" type="java.lang.Integer">
+            <column name="id_permiso" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="perfil" class="com.sc77.entities.Perfil" fetch="select">
+            <column name="id_perfil" not-null="true" />
+        </many-to-one>
+        <property name="nombrePermiso" type="string">
+            <column name="nombre_permiso" length="30" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

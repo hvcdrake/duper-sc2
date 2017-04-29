@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/04/2017 05:32:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sc77.entities.CentroMaster" table="CentroMaster" catalog="sc77la_dev">
+        <id name="idCentromaster" type="java.lang.Integer">
+            <column name="id_centromaster" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="localidad" class="com.sc77.entities.Localidad" fetch="select">
+            <column name="id_localidad" />
+        </many-to-one>
+        <property name="nombreCentromaster" type="string">
+            <column name="nombre_centromaster" length="100" not-null="true" />
+        </property>
+        <property name="urlCentromaster" type="string">
+            <column name="url_centromaster" length="50" not-null="true" />
+        </property>
+        <property name="dirSubcentro" type="string">
+            <column name="dir_subcentro" length="150" />
+        </property>
+        <set name="contactos" inverse="true">
+            <key>
+                <column name="id_centromaster" />
+            </key>
+            <one-to-many class="com.sc77.entities.Contacto" />
+        </set>
+        <set name="subCentros" inverse="true">
+            <key>
+                <column name="id_centromaster" not-null="true" />
+            </key>
+            <one-to-many class="com.sc77.entities.SubCentro" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="frmInputs" >
+            <p:panelGrid id="agendarExamen" styleClass="companyHeaderGrid" style="width:100%">
+                <f:facet name="header">
+                    <p:row>  
+                        <p:column colspan="4">Agendar Examen </p:column>                        
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Fecha Examen:" />
+                    </p:column>
+                    <p:column colspan="3">
+                        <p:calendar id="popupFechaExamen" value="#{newEx.fechaExamen}" required="true"/>
+                    </p:column> 
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Modalidad:" />
+                    </p:column>
+                    <p:column colspan="3" >
+                        <p:selectOneMenu id="modalExamen" value="#{newEx.modalidadSel}" style="width:300px">
+                            <f:selectItem itemLabel="Seleccionar Modalidad" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{newEx.modalidades}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Grado:" />
+                    </p:column>
+                    <p:column colspan="3">
+                        <p:selectOneMenu id="gradoExamen" value="#{newEx.gradoSel}" style="width:300px">
+                            <f:selectItem itemLabel="Seleccionar Grado" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{newEx.grados}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Plazo regular (Inicio):" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="popupPlazoRegIni" value="#{newEx.plazoRegularIni}" title="Inicio"/>                        
+                    </p:column>
+                    <p:column>
+                        <h:outputLabel value="Plazo regular (Fin):" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="popupPlazoRegFin" value="#{newEx.plazoRegularFin}" title="Fin"/>                        
+                    </p:column>                      
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Plazo extendido (Inicio):" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="popupPlazoExtIni" value="#{newEx.plazoExtIni}" title="Inicio"/>                        
+                    </p:column>             
+                    <p:column>
+                        <h:outputLabel value="Plazo extendido (Fin):" />
+                    </p:column>              
+                    <p:column>
+                        <p:calendar id="popupPlazoExtFin" value="#{newEx.plazoExtFin}" title="Fin"/>                        
+                    </p:column>                      
+                </p:row>                
+                
+                <f:facet name="footer">
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:commandButton id="agendarExamenButt" value="Agendar"
+                                             actionListener="#{newEx.agendarExamen(actionEvent)}"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+            </p:panelGrid>
+            
+        </h:form>
+    </h:body>
+</html>
+

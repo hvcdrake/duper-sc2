@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/04/2017 05:32:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sc77.entities.Modalidad" table="Modalidad" catalog="sc77la_dev">
+        <id name="idModalidad" type="java.lang.Integer">
+            <column name="id_modalidad" />
+            <generator class="identity" />
+        </id>
+        <property name="descModalidad" type="string">
+            <column name="desc_modalidad" length="35" not-null="true" />
+        </property>
+        <set name="examens" inverse="true">
+            <key>
+                <column name="id_modalidad" not-null="true" />
+            </key>
+            <one-to-many class="com.sc77.entities.Examen" />
+        </set>
+    </class>
+</hibernate-mapping>
