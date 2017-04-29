@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://sc77la-dev.ccbotb3tiopx.sa-east-1.rds.amazonaws.com:3306/sc77la_dev?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">cambridge</property>
+    <property name="hibernate.connection.password">Peru123!</property>
+    <mapping resource="com/sc77/entities/Plazo.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Provincia.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Programa.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Localidad.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Contacto.hbm.xml"/>
+    <mapping resource="com/sc77/entities/UbicacionExamen.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Parte.hbm.xml"/>
+    <mapping resource="com/sc77/entities/CatalogoPlazo.hbm.xml"/>
+    <mapping resource="com/sc77/entities/CentroMaster.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Usuario.hbm.xml"/>
+    <mapping resource="com/sc77/entities/SubCentro.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Examen.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Grado.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Perfil.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Permisos.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Modalidad.hbm.xml"/>
+    <mapping resource="com/sc77/entities/Autonomia.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

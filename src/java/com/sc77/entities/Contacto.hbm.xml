@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/04/2017 05:32:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sc77.entities.Contacto" table="Contacto" catalog="sc77la_dev">
+        <id name="idContacto" type="java.lang.Integer">
+            <column name="id_contacto" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="centroMaster" class="com.sc77.entities.CentroMaster" fetch="select">
+            <column name="id_centromaster" />
+        </many-to-one>
+        <many-to-one name="usuario" class="com.sc77.entities.Usuario" fetch="select">
+            <column name="id_usuario" />
+        </many-to-one>
+        <many-to-one name="subCentro" class="com.sc77.entities.SubCentro" fetch="select">
+            <column name="id_subcentro" />
+        </many-to-one>
+        <property name="emailContacto" type="string">
+            <column name="email_contacto" length="100" not-null="true" />
+        </property>
+        <property name="telefonoContacto" type="string">
+            <column name="telefono_contacto" length="30" not-null="true" />
+        </property>
+        <property name="celularContacto" type="string">
+            <column name="celular_contacto" length="30" not-null="true" />
+        </property>
+        <property name="nombreContacto" type="string">
+            <column name="nombre_contacto" length="100" not-null="true" />
+        </property>
+        <property name="apellidoContacto" type="string">
+            <column name="apellido_contacto" length="100" not-null="true" />
+        </property>
+        <property name="estadoContacto" type="string">
+            <column name="estado_contacto" length="25" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/04/2017 05:32:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sc77.entities.SubCentro" table="SubCentro" catalog="sc77la_dev">
+        <id name="idSubcentro" type="java.lang.Integer">
+            <column name="id_subcentro" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="localidad" class="com.sc77.entities.Localidad" fetch="select">
+            <column name="id_localidad" />
+        </many-to-one>
+        <many-to-one name="centroMaster" class="com.sc77.entities.CentroMaster" fetch="select">
+            <column name="id_centromaster" not-null="true" />
+        </many-to-one>
+        <property name="nombreSubcentro" type="string">
+            <column name="nombre_subcentro" length="100" not-null="true" />
+        </property>
+        <property name="urlSubcentro" type="string">
+            <column name="url_subcentro" length="50" not-null="true" />
+        </property>
+        <property name="capacidadSubcentro" type="int">
+            <column name="capacidad_subcentro" not-null="true" />
+        </property>
+        <property name="capacidadConfirmada" type="int">
+            <column name="capacidad_confirmada" not-null="true" />
+        </property>
+        <property name="rankingListaPreferencia" type="int">
+            <column name="ranking_lista_preferencia" not-null="true" />
+        </property>
+        <property name="dirSubcentro" type="string">
+            <column name="dir_subcentro" length="150" />
+        </property>
+        <set name="contactos" inverse="true">
+            <key>
+                <column name="id_subcentro" />
+            </key>
+            <one-to-many class="com.sc77.entities.Contacto" />
+        </set>
+        <set name="examens" inverse="true">
+            <key>
+                <column name="id_subcentro" not-null="true" />
+            </key>
+            <one-to-many class="com.sc77.entities.Examen" />
+        </set>
+        <set name="ubicacionExamens" inverse="true">
+            <key>
+                <column name="id_subcentro" not-null="true" />
+            </key>
+            <one-to-many class="com.sc77.entities.UbicacionExamen" />
+        </set>
+    </class>
+</hibernate-mapping>

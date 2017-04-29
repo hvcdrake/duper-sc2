@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Crear Sub-Centro</title>
+    </h:head>
+    <h:body>
+        
+        <br/>
+        <h:form id="frmInputs" >
+            <p:panelGrid id="crearSubCentro" styleClass="companyHeaderGrid" style="width:100%">
+                <f:facet name="header">
+                    <p:row>  
+                        <p:column colspan="4">Nuevo Sub-Centro </p:column>                        
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:messages id="messNewReq" autoUpdate="false" closable="true" />
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Nombre Sub-Centro:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{nSubCentro.nombreSubCentro}" size="37"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Url Sub-Centro:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{nSubCentro.urlSubCentro}" size="37"/>
+                    </p:column>
+                </p:row>   
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Capacidad:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputMask value="#{nSubCentro.capacidadSubCentro}" size="20" mask="99"/>
+                    </p:column>   
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Direcci&oacute;n:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{nSubCentro.dirSubCentro}" size="70" maxlength="150"/>
+                    </p:column>   
+                </p:row>
+               
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Localidad:" />
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete id="localidadSubCentro" value="#{nSubCentro.localidadAutomatica}" completeMethod="#{nSubCentro.listaAutoCompleteLocalidad}"
+                                        var="localidad" itemLabel="#{localidad.nombreLocalidad}" itemValue="#{localidad}" 
+                                            converter="LocalidadConverter" forceSelection="true" size="37" maxResults="10">
+                            <p:ajax event="itemSelect" listener="#{nSubCentro.selectLocalidad()}"
+                                    update=":frmInputs:nombProv :frmInputs:nombAuto"/>
+                        </p:autoComplete>
+                    </p:column>   
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Provincia:" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombProv" value="#{nSubCentro.nombreProvincia}" size="37" disabled="true" />
+                    </p:column>   
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputLabel value="Autonom&iacute;a" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nombAuto" value="#{nSubCentro.nombreAutonomia}" size="37" disabled="true"/>
+                    </p:column>   
+                </p:row>
+                
+                <f:facet name="footer">
+                    <p:row>
+                            <p:column colspan="1">
+                            <p:commandButton id="buttCrearSubCentro" value="Crear Sub-Centro" icon="ui-icon-disk" actionListener="#{nSubCentro.crearSubCentro(actionEvent)}" 
+                                             action="#{listSubCen.updateList(actionEvent)}" onclick="PrimeFaces.monitorDownload(start, stop)" update="listaSubCentro"/>
+                            </p:column>
+                            <p:column colspan="1">
+                            <p:commandButton id="buttBackMenu" value="Volver" icon="ui-icon-home" 
+                                             action="/centromaster/index.jsf"/>
+                            </p:column>
+                    </p:row>
+                </f:facet>
+            </p:panelGrid>
+            
+            <p:dialog modal="true" widgetVar="statusDialog" header="Cargando" draggable="false" closable="false" resizable="false" width="136px">  
+                <p:graphicImage value="/resources/img/ajax-loader.gif" />  
+            </p:dialog>
+        
+        <br/>
+        
+        <p:dataTable id="listaSubCentro" var="sc" value="#{listSubCen.listaSubCentro}" rowKey="#{sc.idSubcentro}" 
+                     selection="#{listSubCen.subCentroSelected}" selectionMode="single" 
+                     filteredValue="#{listSubCen.listaFilteredSubCentro}"
+                     paginator="true" rows="20">
+            
+        <f:facet name="header" >  
+            Sub-Centros asociados a #{listSubCen.nombreCentroMaster}
+        </f:facet>   
+        
+        <p:column id="idSc" headerText="Id" filterBy="#{sc.idSubcentro}" filterMatchMode="contains">  
+            <h:outputText value="#{sc.idSubcentro}"/>  
+        </p:column>  
+        
+        <p:column id="nombreSc" headerText="Nombre Sub Centro" filterBy="#{sc.nombreSubcentro}" filterMatchMode="contains">  
+            <h:outputText value="#{sc.nombreSubcentro}"  />  
+        </p:column>  
+        
+        <p:column id="capa" headerText="Capacidad Total" filterBy="#{sc.capacidadSubcentro}" filterMatchMode="contains">  
+            <h:outputText value="#{sc.capacidadSubcentro}"  /> 
+        </p:column> 
+        
+        <p:column id="capaConf" headerText="Capacidad" filterBy="#{sc.capacidadConfirmada}" filterMatchMode="contains">  
+            <h:outputText value="#{sc.capacidadConfirmada}"  />  
+        </p:column>
+        
+        <p:column id="ordenPref" headerText="Lugar Lista Preferencia" filterBy="#{sc.rankingListaPreferencia}" filterMatchMode="contains">  
+            <h:outputText value="#{sc.rankingListaPreferencia}"  />  
+        </p:column> 
+        
+        <f:facet name="footer">
+            <p:commandButton value="Cancelar" rendered="false"
+                                 />
+        </f:facet>          
+    </p:dataTable>
+        
+    </h:form>
+        
+        <script type="text/javascript">
+            function start() {  
+                statusDialog.show();  
+            }  
+  
+            function stop() {  
+                statusDialog.hide();  
+            }
+        </script>
+    </h:body>
+</html>
+

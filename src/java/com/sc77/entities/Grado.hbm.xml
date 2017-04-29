@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27/04/2017 05:32:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.sc77.entities.Grado" table="Grado" catalog="sc77la_dev">
+        <id name="idGrado" type="java.lang.Integer">
+            <column name="id_grado" />
+            <generator class="identity" />
+        </id>
+        <property name="descGrado" type="string">
+            <column name="desc_grado" length="70" not-null="true" />
+        </property>
+        <property name="categoriaGrado" type="string">
+            <column name="categoria_grado" length="35" not-null="true" />
+        </property>
+        <property name="nombreCortoGrado" type="string">
+            <column name="nombre_corto_grado" length="20" not-null="true" />
+        </property>
+        <set name="examens" inverse="true">
+            <key>
+                <column name="id_grado" not-null="true" />
+            </key>
+            <one-to-many class="com.sc77.entities.Examen" />
+        </set>
+    </class>
+</hibernate-mapping>
