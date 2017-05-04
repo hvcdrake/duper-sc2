@@ -1,11 +1,8 @@
 package com.sc77.entities;
-// Generated 27/04/2017 05:32:16 AM by Hibernate Tools 3.2.1.GA
+// Generated 01/05/2017 09:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +11,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,24 +27,18 @@ public class Plazo  implements java.io.Serializable {
 
      private Integer idPlazo;
      private CatalogoPlazo catalogoPlazo;
+     private Examen examen;
      private Date fechaInico;
      private Date fechaFin;
-     private Set examens = new HashSet(0);
 
     public Plazo() {
     }
 
-	
-    public Plazo(CatalogoPlazo catalogoPlazo, Date fechaInico, Date fechaFin) {
-        this.catalogoPlazo = catalogoPlazo;
-        this.fechaInico = fechaInico;
-        this.fechaFin = fechaFin;
-    }
-    public Plazo(CatalogoPlazo catalogoPlazo, Date fechaInico, Date fechaFin, Set examens) {
+    public Plazo(CatalogoPlazo catalogoPlazo, Examen examen, Date fechaInico, Date fechaFin) {
        this.catalogoPlazo = catalogoPlazo;
+       this.examen = examen;
        this.fechaInico = fechaInico;
        this.fechaFin = fechaFin;
-       this.examens = examens;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -70,6 +60,15 @@ public class Plazo  implements java.io.Serializable {
     public void setCatalogoPlazo(CatalogoPlazo catalogoPlazo) {
         this.catalogoPlazo = catalogoPlazo;
     }
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_examen", nullable=false)
+    public Examen getExamen() {
+        return this.examen;
+    }
+    
+    public void setExamen(Examen examen) {
+        this.examen = examen;
+    }
     @Temporal(TemporalType.DATE)
     @Column(name="fecha_inico", nullable=false, length=10)
     public Date getFechaInico() {
@@ -87,14 +86,6 @@ public class Plazo  implements java.io.Serializable {
     
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
-    }
-@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="plazo")
-    public Set getExamens() {
-        return this.examens;
-    }
-    
-    public void setExamens(Set examens) {
-        this.examens = examens;
     }
 
 

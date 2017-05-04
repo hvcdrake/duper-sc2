@@ -1,5 +1,5 @@
 package com.sc77.entities;
-// Generated 27/04/2017 05:32:16 AM by Hibernate Tools 3.2.1.GA
+// Generated 01/05/2017 09:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -36,7 +36,6 @@ public class SubCentro  implements java.io.Serializable {
      private int rankingListaPreferencia;
      private String dirSubcentro;
      private Set contactos = new HashSet(0);
-     private Set examens = new HashSet(0);
      private Set ubicacionExamens = new HashSet(0);
 
     public SubCentro() {
@@ -51,7 +50,7 @@ public class SubCentro  implements java.io.Serializable {
         this.capacidadConfirmada = capacidadConfirmada;
         this.rankingListaPreferencia = rankingListaPreferencia;
     }
-    public SubCentro(Localidad localidad, CentroMaster centroMaster, String nombreSubcentro, String urlSubcentro, int capacidadSubcentro, int capacidadConfirmada, int rankingListaPreferencia, String dirSubcentro, Set contactos, Set examens, Set ubicacionExamens) {
+    public SubCentro(Localidad localidad, CentroMaster centroMaster, String nombreSubcentro, String urlSubcentro, int capacidadSubcentro, int capacidadConfirmada, int rankingListaPreferencia, String dirSubcentro, Set contactos, Set ubicacionExamens) {
        this.localidad = localidad;
        this.centroMaster = centroMaster;
        this.nombreSubcentro = nombreSubcentro;
@@ -61,7 +60,6 @@ public class SubCentro  implements java.io.Serializable {
        this.rankingListaPreferencia = rankingListaPreferencia;
        this.dirSubcentro = dirSubcentro;
        this.contactos = contactos;
-       this.examens = examens;
        this.ubicacionExamens = ubicacionExamens;
     }
    
@@ -154,14 +152,6 @@ public class SubCentro  implements java.io.Serializable {
     
     public void setContactos(Set contactos) {
         this.contactos = contactos;
-    }
-@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="subCentro")
-    public Set getExamens() {
-        return this.examens;
-    }
-    
-    public void setExamens(Set examens) {
-        this.examens = examens;
     }
 @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="subCentro")
     public Set getUbicacionExamens() {

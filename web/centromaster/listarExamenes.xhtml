@@ -1,12 +1,51 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+      <h:form id="listaExaForm">  
+        <p:dataTable id="listaExamenes" var="ex" value="#{listExaCM.examenes}" rowKey="#{ex.idExamen}" 
+                     selection="#{listExaCM.examenSelected}" selectionMode="single" 
+                     filteredValue="#{listExaCM.examenesFiltered}"
+                     paginator="true" rows="20">
+
+           <f:facet name="header" >  
+               Lista de Exámenes
+           </f:facet>    
+
+            <p:column id="gradoExa" headerText="Grado" filterBy="#{ex.grado.nombreCortoGrado}" filterMatchMode="contains">  
+               <h:outputText value="#{ex.grado.nombreCortoGrado}"  />  
+            </p:column>  
+
+            <p:column id="modaExa" headerText="Modalidad" filterBy="#{ex.modalidad.descModalidad}" filterMatchMode="contains">  
+               <h:outputText value="#{ex.modalidad.descModalidad}"  /> 
+            </p:column>
+            
+            <p:column id="estExa" headerText="Estado" filterBy="#{ex.estado}" filterMatchMode="contains">  
+                <h:outputText value="#{ex.estado}"  />  
+            </p:column>
+
+            <p:column id="fechaExa" headerText="Fecha" filterBy="#{ex.fechaExamen}" filterMatchMode="contains">  
+                <h:outputText value="#{ex.fechaExamen}"  />  
+            </p:column>
+            
+            <p:column id="publiEx" headerText="Fecha" filterBy="#{ex.fechaExamen}" filterMatchMode="contains">  
+                <p:commandButton value="Publicar" rendered="#{listExaCM.mostrarPublicar(ex.estado)}"
+                                 action="#{listExaCM.publicarExamen(actionEvent)}"
+                                 update=":listaExaForm:listaExamenes"/>
+            </p:column>
+
+           <f:facet name="footer">
+                <p:commandButton value="Cancelar" rendered="false"
+                                     action="index.jsf"/>
+           </f:facet>          
+       </p:dataTable>
+      </h:form>  
     </h:body>
 </html>
 

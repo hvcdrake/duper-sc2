@@ -60,17 +60,24 @@ public class LoginBean {
      * Creates a new instance of LoginBean
      */
     public LoginBean() {
+        this.mostrarDialogoInicial();
     }
-    
-    
+   
      /**
      * Metodos
      */
     
+    public final void mostrarDialogoInicial(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        
+        System.out.println("Path:" +facesContext.getExternalContext().getRequestContextPath());
+    }
+    
     public void login() throws InterruptedException { 
         
         RequestContext context = RequestContext.getCurrentInstance();  
-        FacesMessage msg;  
+        FacesMessage msg;
         boolean loggedIn;  
         
         UsuarioDao usuarioDao = new UsuarioDaoImpl();
@@ -95,7 +102,8 @@ public class LoginBean {
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "ERROR", "Datos Inválidos");  
         }        
         FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("loggedIn", loggedIn);  
+        context.addCallbackParam("loggedIn", loggedIn);
+        
     }
     
     public void guardarDatosSession(Usuario u){
