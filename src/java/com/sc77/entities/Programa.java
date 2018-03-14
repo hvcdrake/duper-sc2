@@ -1,11 +1,8 @@
 package com.sc77.entities;
-// Generated 27/04/2017 05:32:16 AM by Hibernate Tools 3.2.1.GA
+// Generated 01/05/2017 09:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +11,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,25 +26,19 @@ public class Programa  implements java.io.Serializable {
 
 
      private Integer idPrograma;
+     private Examen examen;
      private Parte parte;
      private Date horaInicio;
      private Date horaFin;
-     private Set examens = new HashSet(0);
 
     public Programa() {
     }
 
-	
-    public Programa(Parte parte, Date horaInicio, Date horaFin) {
-        this.parte = parte;
-        this.horaInicio = horaInicio;
-        this.horaFin = horaFin;
-    }
-    public Programa(Parte parte, Date horaInicio, Date horaFin, Set examens) {
+    public Programa(Examen examen, Parte parte, Date horaInicio, Date horaFin) {
+       this.examen = examen;
        this.parte = parte;
        this.horaInicio = horaInicio;
        this.horaFin = horaFin;
-       this.examens = examens;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -60,6 +50,15 @@ public class Programa  implements java.io.Serializable {
     
     public void setIdPrograma(Integer idPrograma) {
         this.idPrograma = idPrograma;
+    }
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_examen", nullable=false)
+    public Examen getExamen() {
+        return this.examen;
+    }
+    
+    public void setExamen(Examen examen) {
+        this.examen = examen;
     }
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_parte", nullable=false)
@@ -87,14 +86,6 @@ public class Programa  implements java.io.Serializable {
     
     public void setHoraFin(Date horaFin) {
         this.horaFin = horaFin;
-    }
-@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="programa")
-    public Set getExamens() {
-        return this.examens;
-    }
-    
-    public void setExamens(Set examens) {
-        this.examens = examens;
     }
 
 

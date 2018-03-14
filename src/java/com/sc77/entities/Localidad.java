@@ -1,5 +1,5 @@
 package com.sc77.entities;
-// Generated 27/04/2017 05:32:16 AM by Hibernate Tools 3.2.1.GA
+// Generated 01/05/2017 09:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -36,8 +36,9 @@ public class Localidad  implements java.io.Serializable {
     }
 
 	
-    public Localidad(Provincia provincia) {
+    public Localidad(Provincia provincia, String nombreLocalidad) {
         this.provincia = provincia;
+        this.nombreLocalidad = nombreLocalidad;
     }
     public Localidad(Provincia provincia, String nombreLocalidad, Set centroMasters, Set subCentros) {
        this.provincia = provincia;
@@ -66,7 +67,7 @@ public class Localidad  implements java.io.Serializable {
         this.provincia = provincia;
     }
     
-    @Column(name="nombre_localidad", length=80)
+    @Column(name="nombre_localidad", nullable=false, length=80)
     public String getNombreLocalidad() {
         return this.nombreLocalidad;
     }

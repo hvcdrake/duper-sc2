@@ -1,12 +1,58 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        
+        <h:form id="listaPrefForm">
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:panelGrid id="agendarExamen" styleClass="companyHeaderGrid" style="width:100%" >
+                <f:facet name="header">
+                    <p:row>  
+                        <p:column colspan="2">
+                            <h3 style="margin-top: 0">Orden de preferencia de Sub-Centros (Arriba tiene mayor preferencia)</h3>
+                        </p:column>                        
+                    </p:row>
+                </f:facet>
+                
+                <p:row>
+                    <p:column colspan="1">
+                        <p:orderList value="#{listPref.rankingSubCentros}" var="rank" style="width:100%"
+                                     controlsLocation="none" itemLabel="#{rank}" itemValue="#{rank}" />
+                    </p:column>
+                </p:row>
+                
+                <f:facet name="footer">
+                    <p:row>  
+                        <p:column colspan="2">
+                            <p:commandButton value="Guardar cambios" style="margin-top:5px"
+                                             action="#{listPref.guardarCambiosListaPref(actionEvent)}"
+                                             oncomplete="handleGuardarCambiosRequest(xhr, status, args)"
+                                             update=":listaPrefForm:msgs"/>                         
+                        </p:column>                        
+                    </p:row>
+                </f:facet>
+
+                
+            </p:panelGrid>
+        </h:form>
+        
+
+       <script type="text/javascript">  
+             function handleGuardarCambiosRequest(xhr, status, args) {
+                 if(args.validationFailed) {
+                     //jQuery('#dialog').effect("shake", { times:2 }, 100);  
+                 } else {
+                     //window.location = "centromaster/index.jsf";       
+                 }  
+             }  
+       </script>
     </h:body>
 </html>
 

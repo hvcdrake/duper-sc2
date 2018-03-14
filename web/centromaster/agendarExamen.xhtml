@@ -8,6 +8,8 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        
+        <p:growl id="growlAgendarExamen" showDetail="false" life="3000" />
         <h:form id="frmInputs" >
             <p:panelGrid id="agendarExamen" styleClass="companyHeaderGrid" style="width:100%">
                 <f:facet name="header">
@@ -20,7 +22,8 @@
                         <h:outputLabel value="Fecha Examen:" />
                     </p:column>
                     <p:column colspan="3">
-                        <p:calendar id="popupFechaExamen" value="#{newEx.fechaExamen}" required="true"/>
+                        <p:calendar id="popupFechaExamen" label="Fecha Examen" 
+                                    value="#{newEx.fechaExamen}" disabled="#{newEx.disableInputs}" required="true"/>
                     </p:column> 
                 </p:row>
                 
@@ -29,7 +32,8 @@
                         <h:outputLabel value="Modalidad:" />
                     </p:column>
                     <p:column colspan="3" >
-                        <p:selectOneMenu id="modalExamen" value="#{newEx.modalidadSel}" style="width:300px">
+                        <p:selectOneMenu id="modalExamen" label="Modalidad" value="#{newEx.modalidadSel}" 
+                                         style="width:300px" disabled="#{newEx.disableInputs}" required="true">
                             <f:selectItem itemLabel="Seleccionar Modalidad" itemValue="" noSelectionOption="false" />
                             <f:selectItems value="#{newEx.modalidades}" />
                         </p:selectOneMenu>
@@ -41,7 +45,8 @@
                         <h:outputLabel value="Grado:" />
                     </p:column>
                     <p:column colspan="3">
-                        <p:selectOneMenu id="gradoExamen" value="#{newEx.gradoSel}" style="width:300px">
+                        <p:selectOneMenu id="gradoExamen" label="Grado" value="#{newEx.gradoSel}" 
+                                         style="width:300px" disabled="#{newEx.disableInputs}" required="true">
                             <f:selectItem itemLabel="Seleccionar Grado" itemValue="" noSelectionOption="false" />
                             <f:selectItems value="#{newEx.grados}" />
                         </p:selectOneMenu>
@@ -53,13 +58,15 @@
                         <h:outputLabel value="Plazo regular (Inicio):" />
                     </p:column>
                     <p:column>
-                        <p:calendar id="popupPlazoRegIni" value="#{newEx.plazoRegularIni}" title="Inicio"/>                        
+                        <p:calendar id="popupPlazoRegIni" label="Plazo Inicio" value="#{newEx.plazoRegularIni}" 
+                                    title="Inicio" disabled="#{newEx.disableInputs}" required="true"/>                        
                     </p:column>
                     <p:column>
                         <h:outputLabel value="Plazo regular (Fin):" />
                     </p:column>
                     <p:column>
-                        <p:calendar id="popupPlazoRegFin" value="#{newEx.plazoRegularFin}" title="Fin"/>                        
+                        <p:calendar id="popupPlazoRegFin" label="Plazo Fin" value="#{newEx.plazoRegularFin}" 
+                                    title="Fin" disabled="#{newEx.disableInputs}" required="true"/>                        
                     </p:column>                      
                 </p:row>
                 
@@ -68,27 +75,53 @@
                         <h:outputLabel value="Plazo extendido (Inicio):" />
                     </p:column>
                     <p:column>
-                        <p:calendar id="popupPlazoExtIni" value="#{newEx.plazoExtIni}" title="Inicio"/>                        
+                        <p:calendar id="popupPlazoExtIni" label="Plazo Ext. Inicio" value="#{newEx.plazoExtIni}" 
+                                    title="Inicio" disabled="#{newEx.disableInputs}" required="true"/>                        
                     </p:column>             
                     <p:column>
                         <h:outputLabel value="Plazo extendido (Fin):" />
                     </p:column>              
                     <p:column>
-                        <p:calendar id="popupPlazoExtFin" value="#{newEx.plazoExtFin}" title="Fin"/>                        
+                        <p:calendar id="popupPlazoExtFin" label="Plazo Ext. Fin" value="#{newEx.plazoExtFin}" 
+                                    title="Fin" disabled="#{newEx.disableInputs}" required="true"/>                        
                     </p:column>                      
                 </p:row>                
                 
                 <f:facet name="footer">
-                    <p:row>
+                    <p:row rendered="#{newEx.showAgendarButton}">
                         <p:column colspan="4">
                             <p:commandButton id="agendarExamenButt" value="Agendar"
-                                             actionListener="#{newEx.agendarExamen(actionEvent)}"/>
+                                             action="#{newEx.agendarExamen(actionEvent)}"
+                                             oncomplete="handleAgendarExamenRequest(xhr, status, args)"
+                                             update=":growlAgendarExamen :frmInputs:agendarExamen"/>
                         </p:column>
                     </p:row>
+                    <p:row rendered="#{newEx.showResultButtons}">
+                        <p:column colspan="1">
+                            <p:commandButton id="listaGoButt" value="Ver exámenes agendados"
+                                             action="listarExamenes.jsf"/>
+                        </p:column>                        
+                        <p:column colspan="3">
+                            <p:commandButton id="emailGoButt" value="Enviar e-mail"
+                                             />
+                        </p:column>
+                    </p:row>                    
                 </f:facet>
             </p:panelGrid>
             
         </h:form>
+        
+        
+        
+       <script type="text/javascript">  
+             function handleAgendarExamenRequest(xhr, status, args) {
+                 if(args.validationFailed) {
+                     //jQuery('#dialog').effect("shake", { times:2 }, 100);  
+                 } else {
+                     //window.location = "centromaster/index.jsf";       
+                 }  
+             }  
+       </script>
     </h:body>
 </html>
 

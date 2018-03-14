@@ -23,7 +23,7 @@ public class GradoDaoImpl implements GradoDao{
         List<Grado> res=new ArrayList<Grado>();
         
         Session session = HibernateUtil.getSessionFactory().openSession();
-        String sql = "from Grado order by idGrado"; 
+        String sql = "from Grado order by idGrado asc"; 
         Query query = session.createQuery(sql);
         
         List<Grado> list = (List<Grado>)query.list();

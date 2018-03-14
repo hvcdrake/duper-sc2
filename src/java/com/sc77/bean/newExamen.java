@@ -4,22 +4,35 @@
  */
 package com.sc77.bean;
 
+import com.sc77.dao.CentroMasterDao;
+import com.sc77.dao.ExamenDao;
 import com.sc77.dao.GradoDao;
 import com.sc77.dao.ModalidadDao;
+import com.sc77.dao.impl.CentroMasterDaoImpl;
+import com.sc77.dao.impl.ExamenDaoImpl;
 import com.sc77.dao.impl.GradoDaoImpl;
 import com.sc77.dao.impl.ModalidadDaoImpl;
+import com.sc77.entities.CatalogoPlazo;
+import com.sc77.entities.CentroMaster;
 import com.sc77.entities.Examen;
 import com.sc77.entities.Grado;
 import com.sc77.entities.Modalidad;
 import com.sc77.entities.Plazo;
+import com.sc77.entities.SubCentro;
+import com.sc77.entities.UbicacionExamen;
+import com.sc77.util.hib.FacesUtil;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -41,6 +54,34 @@ public class newExamen {
     private Date plazoRegularFin;
     private Date plazoExtFin;
     private Date plazoExtIni;
+    
+    private Boolean disableInputs=Boolean.FALSE;
+    private Boolean showResultButtons=Boolean.FALSE;
+    private Boolean showAgendarButton=Boolean.TRUE;
+
+    public Boolean getShowAgendarButton() {
+        return showAgendarButton;
+    }
+
+    public void setShowAgendarButton(Boolean showAgendarButton) {
+        this.showAgendarButton = showAgendarButton;
+    }
+    
+    public Boolean getShowResultButtons() {
+        return showResultButtons;
+    }
+
+    public void setShowResultButtons(Boolean showResultButtons) {
+        this.showResultButtons = showResultButtons;
+    }
+
+    public Boolean getDisableInputs() {
+        return disableInputs;
+    }
+
+    public void setDisableInputs(Boolean disableInputs) {
+        this.disableInputs = disableInputs;
+    }
 
     public Date getPlazoRegularIni() {
         return plazoRegularIni;
@@ -149,12 +190,29 @@ public class newExamen {
     }
     
     public void agendarExamen(ActionEvent actionEvent){
+        RequestContext context = RequestContext.getCurrentInstance();  
+        FacesMessage msg;
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String result="Save failed. No Id.";
+        Boolean agendarSuccess=Boolean.FALSE;
+        
         GradoDao gradoDao=new GradoDaoImpl();
         ModalidadDao modalidadDao=new ModalidadDaoImpl();
-        Examen examen=new Examen();
-        Plazo plazoNormal=new Plazo();
-        Plazo plazoExtemp=new Plazo();
+        ExamenDao examenDao= new ExamenDaoImpl();
+        CentroMasterDao centroMasterDao = new CentroMasterDaoImpl();
+        
+        Examen examen;
+        Plazo plazoNormal;
+        Plazo plazoExtemp;
+        CatalogoPlazo regular=new CatalogoPlazo();
+        CatalogoPlazo ext=new CatalogoPlazo();
+        CentroMaster centroMaster;
+        List<Plazo> plazos = new ArrayList<Plazo>();
+        List<UbicacionExamen> ubicaciones = new ArrayList<UbicacionExamen>();
+        List<SubCentro> subCentros = new ArrayList<SubCentro>();
+        
+        regular.setIdCatalogoPlazo(1);
+        ext.setIdCatalogoPlazo(2);
         
         System.out.println("grado:"+this.gradoSel);
         System.out.println("modad:"+this.modalidadSel);
@@ -163,14 +221,47 @@ public class newExamen {
         System.out.println("fechha pla ini:"+sdf.format(this.plazoRegularFin));
         System.out.println("fechha ext ini:"+sdf.format(this.plazoExtIni));
         System.out.println("fechha ext fin:"+sdf.format(this.plazoExtFin));
-          
-        examen.setEstado("AGENDADO");
-        examen.setFechaExamen(this.fechaExamen);
-        examen.setGrado(
-                gradoDao.buscarGradoPorDesc(this.gradoSel)
-                );
-        examen.setModalidad(
-                modalidadDao.buscarModalidadPorDesc(this.modalidadSel)
-                );
+               
+        examen= new Examen(modalidadDao.buscarModalidadPorDesc(this.modalidadSel), 
+                gradoDao.buscarGradoPorDesc(this.gradoSel), 
+                this.fechaExamen, 
+                "AGENDADO");
+        
+        plazoNormal=new Plazo(regular, examen, this.plazoRegularIni, this.plazoRegularFin);
+        plazoExtemp=new Plazo(ext, examen, this.plazoExtIni, this.plazoExtFin);
+        
+        plazos.add(plazoExtemp);
+        plazos.add(plazoNormal);
+        
+        centroMaster = (CentroMaster) FacesUtil.getSessionMapValue("LoginBean.centroMaster");
+        centroMaster=centroMasterDao.buscarCentroMaster(centroMaster.getIdCentromaster());
+        
+        if(centroMaster!=null){
+            subCentros.addAll(centroMaster.getSubCentros());
+        }
+        
+        if(subCentros.size()>0){
+            for (SubCentro sb:subCentros ){
+                ubicaciones.add(new UbicacionExamen(sb, examen));
+            }
+        
+            result=examenDao.crearExamen(examen, plazos, ubicaciones);
+            System.out.println("Examen:"+result);
+        }
+        
+        if(result.compareTo("Save failed. No Id.")==0){
+            agendarSuccess=Boolean.FALSE;
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Algo salió mal. Intente nuevamente.", "Algo salió mal. Intente nuevamente."); 
+        }
+        else{
+            agendarSuccess=Boolean.TRUE;
+            this.disableInputs=Boolean.TRUE;
+            this.showResultButtons=Boolean.TRUE;
+            this.showAgendarButton=Boolean.FALSE;
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Examen agendado correctamente.", "Examen agendado correctamente."); 
+        }
+        
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+        context.addCallbackParam("agendarSuccess", agendarSuccess);
     } 
 }

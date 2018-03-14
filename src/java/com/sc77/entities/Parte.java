@@ -1,5 +1,5 @@
 package com.sc77.entities;
-// Generated 27/04/2017 05:32:16 AM by Hibernate Tools 3.2.1.GA
+// Generated 01/05/2017 09:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;

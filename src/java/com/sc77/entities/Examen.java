@@ -1,5 +1,5 @@
 package com.sc77.entities;
-// Generated 27/04/2017 05:32:16 AM by Hibernate Tools 3.2.1.GA
+// Generated 01/05/2017 09:52:18 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -30,36 +30,31 @@ public class Examen  implements java.io.Serializable {
 
 
      private Integer idExamen;
-     private SubCentro subCentro;
-     private Plazo plazo;
-     private Programa programa;
      private Modalidad modalidad;
      private Grado grado;
      private Date fechaExamen;
      private String estado;
+     private Set plazos = new HashSet(0);
+     private Set programas = new HashSet(0);
      private Set ubicacionExamens = new HashSet(0);
 
     public Examen() {
     }
 
 	
-    public Examen(SubCentro subCentro, Plazo plazo, Programa programa, Modalidad modalidad, Grado grado, Date fechaExamen, String estado) {
-        this.subCentro = subCentro;
-        this.plazo = plazo;
-        this.programa = programa;
+    public Examen(Modalidad modalidad, Grado grado, Date fechaExamen, String estado) {
         this.modalidad = modalidad;
         this.grado = grado;
         this.fechaExamen = fechaExamen;
         this.estado = estado;
     }
-    public Examen(SubCentro subCentro, Plazo plazo, Programa programa, Modalidad modalidad, Grado grado, Date fechaExamen, String estado, Set ubicacionExamens) {
-       this.subCentro = subCentro;
-       this.plazo = plazo;
-       this.programa = programa;
+    public Examen(Modalidad modalidad, Grado grado, Date fechaExamen, String estado, Set plazos, Set programas, Set ubicacionExamens) {
        this.modalidad = modalidad;
        this.grado = grado;
        this.fechaExamen = fechaExamen;
        this.estado = estado;
+       this.plazos = plazos;
+       this.programas = programas;
        this.ubicacionExamens = ubicacionExamens;
     }
    
@@ -72,33 +67,6 @@ public class Examen  implements java.io.Serializable {
     
     public void setIdExamen(Integer idExamen) {
         this.idExamen = idExamen;
-    }
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_subcentro", nullable=false)
-    public SubCentro getSubCentro() {
-        return this.subCentro;
-    }
-    
-    public void setSubCentro(SubCentro subCentro) {
-        this.subCentro = subCentro;
-    }
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_plazo", nullable=false)
-    public Plazo getPlazo() {
-        return this.plazo;
-    }
-    
-    public void setPlazo(Plazo plazo) {
-        this.plazo = plazo;
-    }
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_programa", nullable=false)
-    public Programa getPrograma() {
-        return this.programa;
-    }
-    
-    public void setPrograma(Programa programa) {
-        this.programa = programa;
     }
 @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_modalidad", nullable=false)
@@ -135,6 +103,22 @@ public class Examen  implements java.io.Serializable {
     
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="examen")
+    public Set getPlazos() {
+        return this.plazos;
+    }
+    
+    public void setPlazos(Set plazos) {
+        this.plazos = plazos;
+    }
+@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="examen")
+    public Set getProgramas() {
+        return this.programas;
+    }
+    
+    public void setProgramas(Set programas) {
+        this.programas = programas;
     }
 @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="examen")
     public Set getUbicacionExamens() {

@@ -6,6 +6,7 @@ package com.sc77.dao;
 
 import com.sc77.entities.CentroMaster;
 import com.sc77.entities.SubCentro;
+import java.util.List;
 
 /**
  *
@@ -17,5 +18,7 @@ public interface SubCentroDao {
     
     public int lastRankingPreferencia(CentroMaster centroMaster);
     
-
+    public List<SubCentro> subCentrosSegunRankingPreferencia(CentroMaster centroMaster);
+    
+    public Boolean actualizarRankingSubCentros(List<SubCentro> subCentros);
 }
